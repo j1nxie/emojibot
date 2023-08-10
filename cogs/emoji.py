@@ -17,7 +17,9 @@ class EmojiCog(commands.Cog, name="emoji"):
         self, ctx: Context, emoji: str, emoji_url: Optional[str] = None
     ):
         if emoji_url is not None:
-            for name in ctx.guild.emojis:  # type: ignore
+            for guild_emoji in ctx.guild.emojis:  # type: ignore
+                name = guild_emoji.name
+                print(name)
                 if emoji == name:
                     embed = discord.Embed(
                         title="emoji already exists!",
@@ -37,6 +39,16 @@ class EmojiCog(commands.Cog, name="emoji"):
             await ctx.reply(embed=embed, mention_author=False)
         else:
             emoji_data = discord.PartialEmoji.from_str(emoji)
+            for guild_emoji in ctx.guild.emojis:  # type: ignore
+                name = guild_emoji.name
+                if emoji_data.name == name:
+                    embed = discord.Embed(
+                        title="emoji already exists!",
+                        description=f"an emoji with the name `{emoji}` already exists in the server.",
+                    )
+                    await ctx.reply(embed=embed, mention_author=False)
+                    return
+
             if emoji_data.is_custom_emoji():
                 emoji_image = requests.get(emoji_data.url).content
                 await ctx.guild.create_custom_emoji(  # type: ignore
