@@ -19,7 +19,6 @@ class EmojiCog(commands.Cog, name="emoji"):
         if emoji_url is not None:
             for guild_emoji in ctx.guild.emojis:  # type: ignore
                 name = guild_emoji.name
-                print(name)
                 if emoji == name:
                     embed = discord.Embed(
                         title="emoji already exists!",
