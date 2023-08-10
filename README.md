@@ -5,7 +5,7 @@ a small Discord bot to help you manage emojis in your servers.
 ## features
 
 - [x] add emojis
-- [ ] delete emojis
+- [x] delete emojis
 - [ ] manage emojis list
 
 ## usage
