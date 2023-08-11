@@ -67,14 +67,14 @@ class EmojiCog(commands.Cog, name="emoji"):
                 await ctx.guild.delete_emoji(discord.Object(id=guild_emoji.id))  # type: ignore
                 embed = discord.Embed(
                     title="deleted an emoji!",
-                    description=f"deleted emoji `{emoji} from the server.",
+                    description=f"deleted emoji `{emoji}` from the server.",
                 )
                 await ctx.reply(embed=embed, mention_author=False)
                 return
 
         embed = discord.Embed(
             title="couldn't find the emoji!",
-            description=f"there were no matches for {emoji} on the emoji list!",
+            description=f"there were no matches for `{emoji}` on the emoji list!",
         )
         await ctx.reply(embed=embed, mention_author=False)
 
