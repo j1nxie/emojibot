@@ -4,8 +4,10 @@ services:
   emojibot:
     build:
       context: .
-      target: production-env
+      target: development-env
     env_file:
       - .env
+    environment:
+      - DEV=1
     volumes:
       - .:/app
