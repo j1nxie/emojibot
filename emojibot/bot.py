@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import logging.handlers
+import os
 import sys
 from pathlib import Path
 from time import time
@@ -22,9 +23,11 @@ class EmojiBot(Bot):
 
 
 async def startup():
-    if (token := cfg.get("DISCORD_TOKEN")) is None:
+    if ((token := cfg.get("DISCORD_TOKEN")) is None) and (
+        (token := os.getenv("DISCORD_TOKEN")) is None
+    ):
         sys.exit(
-            '[ERROR] token not found, make sure "token" is set in the .env file. exiting.'
+            '[ERROR] token not found, make sure "DISCORD_TOKEN" is set in the environment. exiting.'
         )
 
     logger = logging.getLogger("discord")
@@ -47,13 +50,18 @@ async def startup():
     bot = EmojiBot(command_prefix=".", intents=intents)
     bot.cfg = cfg
 
-    if cfg["DEV"] == "1":
+    try:
+        dev = cfg["DEV"] == "1"
+    except KeyError:
+        dev = os.getenv("DEV") == "1"
+
+    if dev:
         await bot.load_extension("cogs.hotreload")
         print("loaded cogs.hotreload")
         await bot.load_extension("jishaku")
         print("loaded jishaku")
 
-    for file in (BOT_DIR / "cogs").glob("*.py"):
+    for file in (BOT_DIR / "emojibot/cogs").glob("*.py"):
         if file.stem in ["hotreload", "__init__"]:
             continue
 
