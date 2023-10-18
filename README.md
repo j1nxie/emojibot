@@ -17,7 +17,7 @@ a small Discord bot to help you manage emojis in your servers.
 2. in your shell:
 ```shell
 $ poetry install
-$ poetry run python bot.py
+$ poetry run python -m emojibot
 ```
 
 3. your bot should be up and running!
