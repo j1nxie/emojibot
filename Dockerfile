@@ -12,12 +12,12 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VIRTUALENVS_CREATE=false \
     VIRTUAL_ENV="/venv"
 
-ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="${POETRY_HOME}/bin:${VIRTUAL_ENV}/bin:${PATH}"
 
 RUN python -m venv ${VIRTUAL_ENV}
 
 WORKDIR /app
-ENV PYTHONPATH="/app:$PYTHONPATH"
+ENV PYTHONPATH="/app:${PYTHONPATH}"
 
 # builder image
 FROM python-base as builder-base
@@ -45,8 +45,8 @@ RUN --mount=type=cache,target=/root/.cache \
 # production image
 FROM builder-base as production-env
 
-COPY --from=builder-base $POETRY_HOME $POETRY_HOME
-COPY --from=builder-base $VIRTUAL_ENV $VIRTUAL_ENV
+COPY --from=builder-base ${POETRY_HOME} ${POETRY_HOME}
+COPY --from=builder-base ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
